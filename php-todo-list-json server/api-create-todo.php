@@ -7,7 +7,7 @@ header ('Content-Type: application/json');
 
 $newTodo = $_GET ['newTodo'];
 
-$jsonTodoList = file_get_contents("todo.json", true);
+$jsonTodoList = file_get_contents("todo.json");
 $todoList = json_decode($jsonTodoList);
 
 $todoList[] = [
@@ -15,4 +15,4 @@ $todoList[] = [
     "completed" => false
 ];
 $jsonTodoList = json_encode ($todoList);
-file_put_contents('todo.json', $jsonTodoList) ;
+file_put_contents('todo.json', $jsonTodoList);
