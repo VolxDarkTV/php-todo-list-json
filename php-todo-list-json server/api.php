@@ -1,9 +1,6 @@
 <?php
 // Permettere l'accesso al front 
-header("Access-Control-Allow-Origin: http://localhost:5173");
-header("Access-Control-Allow-Headers: X-Requested-With");
-
-header ('Content-Type: application/json');
+include("cors_policy.php");
 
 $jsonTodoList = file_get_contents("todo.json");
 // $todoList = json_decode($jsonTodoList);

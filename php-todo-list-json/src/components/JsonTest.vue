@@ -11,7 +11,7 @@ export default{
             todoList: [],
         }
     },
-    methods: {
+    methods:{
         getAllData(){
             
             axios.get(API_URL + 'api.php')
@@ -37,12 +37,26 @@ export default{
                     this.getAllData();
                 });
         },
+        toggleTodoElem(ind){
 
+            const params = { params:{
+                'ind': ind
+            }};
+
+            axios.get(API_URL + 'api-completed-todo.php', params)
+                .then(res => {
+                    const data = res.data;
+
+                    if (data == true){
+                        this.getAllData();
+                    }
+                })
+        },  
         // collegamento al file php per la funzione delete task
-        clickDelete(index){
+        clickDelete(ind){
             
             const params = {
-                'index': index,
+                'index': ind,
             }
 
             axios.get(API_URL + 'api-delete-todo.php', { params })
@@ -70,10 +84,20 @@ export default{
             </form>
             <div class="my_todo_ul_list p-5">
                 <ul class="d-flex flex-column gap-2">
-                    <li class="my_todo d-flex justify-content-between rounded-pill border border-white p-3" v-for="(todoElem, ind) in todoList" :key="ind">
-    
-                        <span class="my_text d-flex align-items-center pe-3">{{todoElem.text}}</span>
-    
+                    <li class="my_todo d-flex justify-content-between align-items-center rounded-pill border border-white p-3" v-for="(todoElem, ind) in todoList" :key="ind">
+                        
+                        <div @click="toggleTodoElem(ind)">
+
+                            <span v-if="todoElem.completed" class="my_text d-flex align-items-center pe-3">
+                                <s>
+                                    {{todoElem.text}}
+                                </s>
+                            </span>
+
+                            <span class="my_text d-flex align-items-center pe-3" v-else>{{todoElem.text}}</span>
+        
+                        </div>
+                        
                         <span @click="clickDelete(ind)" class="my_close d-flex justify-content-center align-items-center">X</span>
                         
                     </li>
